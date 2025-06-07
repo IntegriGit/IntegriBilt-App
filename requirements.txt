@@ -1,0 +1,50 @@
+# Web framework & API server
+fastapi==0.110.2
+uvicorn==0.29.0
+python-dotenv==1.0.1
+
+# Google Drive & GSuite
+google-api-python-client==2.128.0
+google-auth==2.29.0
+google-auth-oauthlib==1.2.0
+google-auth-httplib2==0.2.0
+
+# Scheduling & Automation
+celery==5.4.0
+redis==5.0.4
+schedule==1.2.1
+watchdog==4.0.1
+
+# Web automation & crawling
+playwright==1.43.0
+puppeteer==0.2.6  # if using via Pyppeteer
+firecrawl-py==0.1.1  # if Firecrawl has a Python wrapper
+
+# Data & Files
+pandas==2.2.2
+numpy==1.26.4
+openpyxl==3.1.2
+PyYAML==6.0.1
+sqlalchemy==2.0.30
+
+# AI & NLP
+openai==1.30.3
+langchain==0.1.20  # optional but powerful for chains/memory
+weaviate-client==4.6.1  # if using Weaviate memory MCP
+llama-index==0.10.28
+
+# Git & GitHub
+GitPython==3.1.43
+PyGithub==2.3.0
+
+# Database connectors
+psycopg2-binary==2.9.9
+sqlite-utils==3.36
+
+# Testing, linting, formatting
+pytest==8.2.1
+black==24.4.2
+flake8==7.0.0
+
+Add initial dependencies for MCP server
+
