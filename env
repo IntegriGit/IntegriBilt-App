@@ -1,0 +1,5 @@
+# Google API credentials
+GOOGLE_SERVICE_ACCOUNT_FILE=service_account.json
+
+# FastAPI settings (optional)
+APP_PORT=8000
