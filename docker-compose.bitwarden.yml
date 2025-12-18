@@ -1,0 +1,63 @@
+version: '3.8'
+
+# Bitwarden Server Development Dependencies
+# This provides the core dependencies needed for Bitwarden server development
+
+services:
+  # Microsoft SQL Server
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: bitwarden-mssql
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=${MSSQL_PASSWORD:-MyStrongP@ss123}
+      - MSSQL_PID=Developer
+    ports:
+      - "1433:1433"
+    volumes:
+      - mssql_data:/var/opt/mssql
+    networks:
+      - bitwarden-network
+    healthcheck:
+      test: /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "${MSSQL_PASSWORD:-MyStrongP@ss123}" -Q "SELECT 1" || exit 1
+      interval: 10s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+
+  # MailCatcher - catches outbound emails for testing
+  mailcatcher:
+    image: dockage/mailcatcher:0.9.0
+    container_name: bitwarden-mail
+    ports:
+      - "1025:1025"  # SMTP
+      - "1080:1080"  # Web UI
+    networks:
+      - bitwarden-network
+
+  # Azurite - Azure Storage Emulator (optional)
+  azurite:
+    image: mcr.microsoft.com/azure-storage/azurite:latest
+    container_name: bitwarden-azurite
+    ports:
+      - "10000:10000"  # Blob service
+      - "10001:10001"  # Queue service
+      - "10002:10002"  # Table service
+    volumes:
+      - azurite_data:/data
+    networks:
+      - bitwarden-network
+    command: "azurite --blobHost 0.0.0.0 --queueHost 0.0.0.0 --tableHost 0.0.0.0 --location /data"
+    profiles:
+      - full
+
+volumes:
+  mssql_data:
+    name: bitwarden_mssql_data
+  azurite_data:
+    name: bitwarden_azurite_data
+
+networks:
+  bitwarden-network:
+    name: bitwarden-network
+    driver: bridge
