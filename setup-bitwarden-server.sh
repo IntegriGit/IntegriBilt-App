@@ -138,7 +138,19 @@ if [ ! -f .env ]; then
     print_info "  - Must include 3 of: uppercase, lowercase, digits, special chars"
     
     read -p "Press Enter to open .env in editor..." 
-    ${EDITOR:-nano} .env
+    
+    # Find available editor
+    if [ -n "$EDITOR" ]; then
+        $EDITOR .env
+    elif command -v nano &> /dev/null; then
+        nano .env
+    elif command -v vi &> /dev/null; then
+        vi .env
+    elif command -v vim &> /dev/null; then
+        vim .env
+    else
+        print_warning "No editor found. Please edit dev/.env manually."
+    fi
 else
     print_info ".env file already exists"
 fi
@@ -178,7 +190,19 @@ if [ ! -f secrets.json ]; then
     print_info "  - licenseDirectory: Set to empty directory path"
     
     read -p "Press Enter to open secrets.json in editor..."
-    ${EDITOR:-nano} secrets.json
+    
+    # Find available editor
+    if [ -n "$EDITOR" ]; then
+        $EDITOR secrets.json
+    elif command -v nano &> /dev/null; then
+        nano secrets.json
+    elif command -v vi &> /dev/null; then
+        vi secrets.json
+    elif command -v vim &> /dev/null; then
+        vim secrets.json
+    else
+        print_warning "No editor found. Please edit dev/secrets.json manually."
+    fi
 else
     print_info "secrets.json already exists"
 fi
