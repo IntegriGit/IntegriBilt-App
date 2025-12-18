@@ -14,6 +14,14 @@ jobs:
       uses: actions/setup-python@v3
       with:
         python-version: '3.10'
+    - name: Set up Node.js (for Bitwarden CLI)
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+    - name: Install Bitwarden CLI
+      run: |
+        npm install -g @bitwarden/cli
+        bw --version || echo "Bitwarden CLI installed"
     - name: Add conda to system path
       run: |
         # $CONDA is an environment variable pointing to the root of the miniconda directory
